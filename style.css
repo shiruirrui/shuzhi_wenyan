@@ -1,0 +1,666 @@
+/* ============ 通用重置 ============ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #F7F4EC;
+  --ink: #2B2B2B;
+  --cinnabar: #B23A2E;
+  --jade: #3E7C6A;
+  --paper: #FFFFFF;
+  --line: rgba(43, 43, 43, 0.12);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: "Songti SC", "SimSun", "STSong", "Noto Serif SC", serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============ 顶部导航栏 ============ */
+.topnav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  background: var(--paper);
+  border-bottom: 3px double var(--line);
+  box-shadow: 0 2px 8px rgba(43, 43, 43, 0.06);
+}
+
+.topnav nav {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-link {
+  position: relative;
+  padding: 10px 18px;
+  color: #2B2B2B;
+  text-decoration: none;
+  font-size: 16px;
+  letter-spacing: 1px;
+  transition: color 0.2s ease;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: calc(100% - 36px);
+  height: 2px;
+  background: var(--cinnabar);
+  transition: transform 0.25s ease;
+}
+
+.nav-link:hover {
+  color: var(--cinnabar);
+}
+
+.nav-link:hover::after {
+  transform: translateX(-50%) scaleX(0.5);
+}
+
+.nav-link.active {
+  color: var(--cinnabar);
+  font-weight: 600;
+}
+
+.nav-link.active::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+/* ============ 页面基础布局 ============ */
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+}
+
+.page {
+  display: none;
+  min-height: 60vh;
+  animation: pageFadeIn 0.3s ease;
+}
+
+.page.is-visible {
+  display: block;
+}
+
+@keyframes pageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page h1 {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--ink);
+  padding-bottom: 14px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.page h1::before,
+.page h1::after {
+  content: "❖";
+  color: var(--cinnabar);
+  margin: 0 10px;
+  font-size: 16px;
+  vertical-align: middle;
+}
+
+/* ============ 卡片样式 ============ */
+.card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 4px rgba(43, 43, 43, 0.04);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 14px rgba(43, 43, 43, 0.08);
+  transform: translateY(-2px);
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--ink);
+}
+
+.card-title::before {
+  content: "�";
+  color: var(--jade);
+  margin-right: 8px;
+}
+
+/* ============ 按钮样式 ============ */
+.btn {
+  display: inline-block;
+  padding: 8px 22px;
+  font-family: inherit;
+  font-size: 14px;
+  letter-spacing: 3px;
+  line-height: 1.4;
+  cursor: pointer;
+  border: 1px solid #2B2B2B;
+  background: transparent;
+  color: #2B2B2B;
+  transition: all 0.2s ease;
+}
+
+.btn + .btn {
+  margin-left: 12px;
+}
+
+.btn:hover {
+  background: #2B2B2B;
+  color: #F7F4EC;
+}
+
+.btn-primary {
+  border-color: var(--cinnabar);
+  background: var(--cinnabar);
+  color: #F7F4EC;
+}
+
+.btn-primary:hover {
+  background: transparent;
+  color: var(--cinnabar);
+}
+
+.btn-jade {
+  border-color: var(--jade);
+  color: var(--jade);
+}
+
+.btn-jade:hover {
+  background: var(--jade);
+  color: #F7F4EC;
+}
+
+/* ============ 四个页面基础布局 ============ */
+.page-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+#page-chat {
+  display: none;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 60vh;
+}
+
+#page-chat.is-visible {
+  display: flex;
+}
+
+#page-profile {
+  display: none;
+}
+
+#page-profile.is-visible {
+  display: block;
+}
+
+/* ============ 问答页 · 当前诗标题 chip ============ */
+.chat-poem-chip {
+  border-left: 4px solid var(--jade);
+}
+
+.chat-poem-chip .card-desc {
+  color: rgba(43, 43, 43, 0.65);
+  font-size: 14px;
+}
+
+/* ============ 渐进式提示题（quiz） ============ */
+.quiz-box {
+  border-left: 4px solid var(--cinnabar);
+}
+
+.quiz-source {
+  display: inline-block;
+  font-size: 12px;
+  letter-spacing: 1px;
+  padding: 4px 12px;
+  border-radius: 4px;
+  background: rgba(178, 58, 46, 0.08);
+  color: var(--cinnabar);
+  margin-bottom: 12px;
+}
+
+.quiz-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.quiz-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 12px;
+  border-radius: 999px;
+  background: rgba(62, 124, 106, 0.10);
+  color: var(--jade);
+  border: 1px solid rgba(62, 124, 106, 0.35);
+}
+
+.quiz-stem {
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--ink);
+  margin-bottom: 18px;
+}
+
+.quiz-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.quiz-input {
+  font-family: inherit;
+  font-size: 15px;
+  letter-spacing: 1px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--paper);
+  color: var(--ink);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.quiz-input:focus {
+  outline: none;
+  border-color: var(--jade);
+  box-shadow: 0 0 0 3px rgba(62, 124, 106, 0.15);
+}
+
+.quiz-input:disabled {
+  background: rgba(43, 43, 43, 0.04);
+  color: rgba(43, 43, 43, 0.5);
+  cursor: not-allowed;
+}
+
+.quiz-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.quiz-msg {
+  min-height: 24px;
+  font-size: 14px;
+  letter-spacing: 1px;
+  margin: 0;
+  color: rgba(43, 43, 43, 0.7);
+}
+
+.quiz-msg.right {
+  color: var(--jade);
+}
+
+.quiz-msg.wrong {
+  color: var(--cinnabar);
+}
+
+.quiz-hints {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.quiz-hint-empty {
+  font-size: 13px;
+  color: rgba(43, 43, 43, 0.45);
+  font-style: italic;
+}
+
+.quiz-hint-item {
+  font-size: 14px;
+  line-height: 1.7;
+  padding: 10px 14px;
+  border-left: 3px solid var(--jade);
+  background: rgba(62, 124, 106, 0.06);
+  border-radius: 0 6px 6px 0;
+  color: var(--ink);
+}
+
+.quiz-answer {
+  clear: both;
+  margin-top: 14px;
+}
+
+.quiz-answer summary {
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--cinnabar);
+  letter-spacing: 2px;
+}
+
+.quiz-answer-text {
+  margin-top: 10px;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--cinnabar);
+  padding: 12px 16px;
+  background: rgba(178, 58, 46, 0.06);
+  border-radius: 6px;
+  border-left: 3px solid var(--cinnabar);
+}
+
+.blink {
+  pointer-events: none;
+}
+
+/* ============ 错题本 ============ */
+.mistakes-empty {
+  font-size: 14px;
+  color: rgba(43, 43, 43, 0.55);
+  font-style: italic;
+  padding: 28px 0;
+  text-align: center;
+}
+
+.mistake-card {
+  border-left: 4px solid var(--cinnabar);
+}
+
+.mistake-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.mistake-card .quiz-stem {
+  font-size: 15px;
+}
+
+.quiz-added-at {
+  font-size: 12px;
+  color: rgba(43, 43, 43, 0.5);
+  margin: 10px 0 12px;
+}
+
+.mistake-card .quiz-actions {
+  margin-top: 4px;
+}
+
+/* ============ 学情画像 ============ */
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+  margin-top: 14px;
+}
+
+.profile-svg-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0 4px;
+}
+
+/* 雷达图配色 */
+.radar-grid {
+  fill: none;
+  stroke: rgba(43, 43, 43, 0.14);
+  stroke-width: 1;
+}
+
+.radar-axis {
+  stroke: rgba(43, 43, 43, 0.25);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+
+.radar-data {
+  fill: rgba(178, 58, 46, 0.22);
+  stroke: var(--cinnabar);
+  stroke-width: 2.2;
+}
+
+.radar-center {
+  fill: var(--cinnabar);
+}
+
+.radar-label {
+  font-size: 13px;
+  fill: var(--ink);
+  font-family: "Songti SC", "SimSun", serif;
+}
+
+/* 成长曲线配色 */
+.growth-grid {
+  stroke: rgba(43, 43, 43, 0.10);
+  stroke-width: 1;
+}
+
+.growth-line {
+  fill: none;
+  stroke: var(--jade);
+  stroke-width: 2.2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.growth-point {
+  fill: var(--paper);
+  stroke: var(--jade);
+  stroke-width: 2;
+}
+
+.growth-x-axis,
+.growth-y-axis {
+  font-size: 11px;
+  fill: rgba(43, 43, 43, 0.55);
+}
+
+/* ============ 错题本 ============ */
+.mistakes-tip {
+  color: #666;
+  font-size: 14px;
+  margin: 8px 0 16px;
+}
+.mistake-card {
+  cursor: pointer;
+  position: relative;
+  transition: box-shadow .2s;
+}
+.mistake-card:hover {
+  box-shadow: 0 4px 14px rgba(0,0,0,.08);
+}
+.mistake-card .mistake-detail {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed #ccc;
+}
+.mistake-card[aria-expanded="true"]::after {
+  content: "已展开";
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  font-size: 12px;
+  color: #888;
+}
+.mistake-card[aria-expanded="false"]::after {
+  content: "点击展开";
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  font-size: 12px;
+  color: #bbb;
+}
+
+/* 错题红色错误次数标签 */
+.wrong-count {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: normal;
+  color: #fff;
+  background: #e05656;
+  border-radius: 10px;
+  vertical-align: 2px;
+}
+.mistake-wrong {
+  color: #c0392b;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+/* ============ 知识库搜索/筛选 ============ */
+.knowledge-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px 0 20px;
+  align-items: center;
+}
+.knowledge-toolbar .search-input {
+  flex: 1 1 280px;
+  min-width: 220px;
+  padding: 8px 12px;
+  border: 1px solid rgba(43, 43, 43, .2);
+  border-radius: 8px;
+  font-size: 14px;
+  background: #fff;
+  font-family: inherit;
+}
+.knowledge-toolbar select {
+  flex: 0 0 auto;
+  padding: 8px 10px;
+  border: 1px solid rgba(43, 43, 43, .2);
+  border-radius: 8px;
+  font-size: 14px;
+  background: #fff;
+  min-width: 110px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.no-result {
+  color: #888;
+  font-size: 14px;
+  padding: 24px 0;
+  text-align: center;
+  font-family: "Songti SC", "SimSun", serif;
+}
+
+/* ============ 知识库卡片徽章 ============ */
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 8px;
+  align-items: center;
+}
+.card-tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  line-height: 1.6;
+  font-family: "Songti SC", "SimSun", serif;
+}
+.card-tag-base {
+  background: rgba(178, 58, 46, 0.1);
+  color: var(--cinnabar, #B23A2E);
+  border: 1px solid rgba(178, 58, 46, 0.25);
+}
+.card-tag-level {
+  background: rgba(58, 138, 116, 0.14);
+  color: var(--jade, #3A8A74);
+  border: 1px solid rgba(58, 138, 116, 0.3);
+}
+
+/* ============ 错题本·重练按钮 ============ */
+.mistake-retry {
+  margin-top: 12px;
+  width: 100%;
+  padding: 8px 14px;
+  background: #3A8A74;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: "Songti SC", "SimSun", serif;
+  transition: background 0.15s;
+  display: block;
+}
+.mistake-retry:hover {
+  background: #2f7060;
+}
+.mistake-retry:active {
+  background: #265e50;
+  transform: translateY(1px);
+}
+
+/* ============ 错题本·查看/收起答案 按钮 ============ */
+.mistake-reveal {
+  margin-top: 12px;
+  width: 100%;
+  padding: 8px 14px;
+  background: #fff;
+  color: #b07214;
+  border: 1px solid #d4a25b;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: "Songti SC", "SimSun", serif;
+  transition: background 0.15s;
+  display: block;
+}
+.mistake-reveal:hover {
+  background: #fbeeda;
+}
+.mistake-reveal:active {
+  background: #f3d8b2;
+  transform: translateY(1px);
+}
+.mistake-retry {
+  margin-top: 8px;
+}
+.mistake-answer-wrap[hidden] {
+  display: none;
+}
