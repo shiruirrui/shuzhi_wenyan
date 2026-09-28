@@ -217,11 +217,11 @@ function buildKnowledgeToolbar() {
   toolbar.innerHTML =
     '<input type="search" class="search-input knowledge-search" placeholder="搜索篇目、作者或赏析" />' +
     '<select class="knowledge-dynasty" aria-label="按朝代筛选">' +
-    '<option value="">全部</option>' +
+    '<option value="">朝代</option>' +
     dynOptions +
     "</select>" +
     '<select class="knowledge-form" aria-label="按体裁筛选">' +
-    '<option value="">全部</option>' +
+    '<option value="">体裁</option>' +
     '<option value="诗">诗</option>' +
     '<option value="词">词</option>' +
     '<option value="赋">赋</option>' +
@@ -364,9 +364,9 @@ const DENGGAO_QUIZ = {
   // 答案的「只露露面」判定（不区分空格/标点）
   answerKey: "无边落木萧萧下不尽长江滚滚来",
   hints: [
-    "这首诗写的是秋天登高所见。想一想，诗人站在高处，听到了什么声音？看到了什么景象？",
-    "诗的前两句各有一个叠字词，一个从听觉写，一个从视觉写。找找看，是哪两个叠词？",
-    "这两句是对仗的：上句写“风、天、猿”，下句写“渚、沙、鸟”。按这个结构，试着把两句补完整。"
+    "这首诗写的是秋天登高所见。想一想，诗人站在高处，看到了什么景象？",
+    "这首诗的中间两句很有名。一句写落叶，一句写江水。找找看，是哪两句？",
+    "这两句都用了叠字。上句写“无边落木”，下句写“不尽长江”。试着把叠字补完整。"
   ],
   errorTags: ["背景常识缺失", "字词释义偏差"],
   maxWrongBeforeAnswer: 3
@@ -398,9 +398,9 @@ function renderQuiz(box, quiz) {
   const parts = [];
   // 出处徽章
   parts.push('<div class="quiz-source">' + quiz.source + "</div>");
-  // 错因标签
+  // 错因标签（初始隐藏，答错/revealNow 时显示）
   parts.push(
-    '<div class="quiz-tags">' +
+    '<div class="quiz-tags" hidden>' +
       quiz.errorTags.map((t) => '<span class="quiz-tag">' + t + "</span>").join("") +
       "</div>"
   );
@@ -473,6 +473,9 @@ function renderQuiz(box, quiz) {
         wrongCount: 1
       });
     }
+    // 显示错因标签
+    const tagEl = box.querySelector(".quiz-tags");
+    if (tagEl) tagEl.removeAttribute("hidden");
   }
 
   form.addEventListener("submit", (e) => {
@@ -502,6 +505,9 @@ function renderQuiz(box, quiz) {
     // 答错：累计；答错次数超过提示条数后才显示答案
     state.wrong += 1;
     state.lastWrong = raw;
+    // 答错时显示错因标签
+    const tagEl = box.querySelector(".quiz-tags");
+    if (tagEl) tagEl.removeAttribute("hidden");
     if (state.wrong > quiz.hints.length) {
       revealNow();
     } else {
