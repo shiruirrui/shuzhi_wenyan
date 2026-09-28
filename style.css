@@ -160,12 +160,6 @@ main {
   color: var(--ink);
 }
 
-.card-title::before {
-  content: "�";
-  color: var(--jade);
-  margin-right: 8px;
-}
-
 /* ============ 按钮样式 ============ */
 .btn {
   display: inline-block;
